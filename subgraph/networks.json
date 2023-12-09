@@ -4,5 +4,35 @@
       "address": "0xCD010F537A4054e4D9DC413A3b81C0fbD8782b41",
       "startBlock": 4850067
     }
+  },
+  "arbitrum-sepolia": {
+    "VaultManager": {
+      "address": "0x49F57d2Da69d714D2c4E9B4B6e8A73D998Ca1Dfa",
+      "startBlock": 2346810
+    }
+  },
+  "polygon-zkevm-testnet": {
+    "VaultManager": {
+      "address": "0x9666242Cc04Be9BFbc6165640Ce23208aEb4398a",
+      "startBlock": 3403567
+    }
+  },
+  "scroll-sepolia": {
+    "VaultManager": {
+      "address": "0x7F0A3832BadC8568084fe5Ab600b81638F28F15f",
+      "startBlock": 2529933
+    }
+  },
+  "base-testnet": {
+    "VaultManager": {
+      "address": "0x9666242Cc04Be9BFbc6165640Ce23208aEb4398a",
+      "startBlock": 13447647
+    }
+  },
+  "celo-alfajores": {
+    "VaultManager": {
+      "address": "0x9666242Cc04Be9BFbc6165640Ce23208aEb4398a",
+      "startBlock": 21340445
+    }
   }
 }

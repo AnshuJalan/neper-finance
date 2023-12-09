@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: VaultManager
@@ -17,7 +17,7 @@ dataSources:
         - Vault
       abis:
         - name: VaultManager
-          file: ./abis/VaultManager.json
+          file: VaultManager/abis/VaultManager.json
       eventHandlers:
         - event: CreateVault(indexed address,uint256,uint128,uint128,uint128)
           handler: handleCreateVault
@@ -31,4 +31,4 @@ dataSources:
           handler: handleIncreaseVaultDebt
         - event: Liquidate(indexed address,indexed address,uint256)
           handler: handleLiquidate
-      file: ./src/vault-manager.ts
+      file: VaultManager/VaultManager.wasm
