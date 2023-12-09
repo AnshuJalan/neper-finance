@@ -120,15 +120,17 @@ contract VaultManager is IVaultManager {
 
         RebaseIndices memory _rebaseIndices = _updateRebaseIndices();
 
-        vault.debt =
-            (vault.debt * vault.lastDebtRebaseIndex) /
-            _rebaseIndices.debtRebaseIndex;
-        vault.collateral =
-            (vault.collateral * vault.lastCollRebaseIndex) /
-            _rebaseIndices.collRebaseIndex;
+        unchecked {
+            vault.debt =
+                (vault.debt * vault.lastDebtRebaseIndex) /
+                _rebaseIndices.debtRebaseIndex;
+            vault.collateral =
+                (vault.collateral * vault.lastCollRebaseIndex) /
+                _rebaseIndices.collRebaseIndex;
 
-        vault.lastCollRebaseIndex = _rebaseIndices.collRebaseIndex;
-        vault.lastDebtRebaseIndex = _rebaseIndices.debtRebaseIndex;
+            vault.lastCollRebaseIndex = _rebaseIndices.collRebaseIndex;
+            vault.lastDebtRebaseIndex = _rebaseIndices.debtRebaseIndex;
+        }
 
         return vault;
     }
