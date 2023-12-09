@@ -1,26 +1,26 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const vaultManagerFactory = await ethers.getContractFactory("VaultManager");
+  const priceFeedFactory = await ethers.getContractFactory("PriceFeed");
 
-  const lockedAmount = ethers.parseEther("0.001");
+  const vaultManager = await vaultManagerFactory.deploy();
+  await vaultManager.waitForDeployment();
 
-  const lock = await ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
+  const priceFeed = await priceFeedFactory.deploy();
+  await priceFeed.waitForDeployment();
 
-  await lock.waitForDeployment();
+  console.log(`Vault Manager deployed at ${vaultManager.target}`);
+  console.log(`Price Feed deployed at ${priceFeed.target}`);
 
-  console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
-  );
+  const receipt1 = await priceFeed.setAddresses("0x694AA1769357215DE4FAC081bf1f309aDC325306"); // chainlink on eth sepolia
+
+  console.log(`Price Feed initialized through txn: ${receipt1.hash}`);
+
+  const receipt2 = await vaultManager.initialize(priceFeed.target);
+  console.log(`Vault Manager initialized through txn: ${receipt2.hash}`);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;

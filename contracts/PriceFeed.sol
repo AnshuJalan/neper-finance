@@ -25,6 +25,10 @@ contract PriceFeed is Ownable, IPriceFeed {
         slot0 = Slot0(uint128(uint(answer)), uint128(timeStamp));
     }
 
+    function setPriceForced(uint128 price) external onlyOwner {
+        slot0 = Slot0(price, uint128(block.timestamp));
+    }
+
     function getPrice() external view returns (uint128) {
         Slot0 memory _slot0 = slot0;
         return _slot0.price;
