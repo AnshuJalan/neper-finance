@@ -1,9 +1,21 @@
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache, DefaultOptions, gql } from "@apollo/client";
 import { CHAINS, DEFAULT_NETWORK } from "./constants";
+
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: "no-cache",
+    errorPolicy: "ignore",
+  },
+  query: {
+    fetchPolicy: "network-only",
+    errorPolicy: "all",
+  },
+};
 
 let client = new ApolloClient({
   uri: CHAINS[localStorage.getItem("network") || DEFAULT_NETWORK].subgraphEndpoint,
   cache: new InMemoryCache(),
+  defaultOptions,
 });
 
 export const setClient = (network: string) => {

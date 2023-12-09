@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 import Button from "./Button";
 import Modal from "./modals/Modal";
@@ -34,9 +35,12 @@ const Vault = ({ id, coll, debt, collRatio, liquidationAt }: VaultProps) => {
       setLoader(true);
       await addCollateral(id, addCollateralInput);
       setDataLoading();
+
       fetchData(account);
+      toast.success("Succesfully added collateral!");
     } catch (err: any) {
       console.error(err);
+      toast.error("Failed to add collateral");
     }
     setLoader(false);
   };
@@ -47,8 +51,10 @@ const Vault = ({ id, coll, debt, collRatio, liquidationAt }: VaultProps) => {
       await withdrawCollateral(id, withdrawCollateralInput);
       setDataLoading();
       fetchData(account);
+      toast.success("Succesfully withdrawn collateral!");
     } catch (err: any) {
       console.error(err);
+      toast.error("Failed to withdraw collateral");
     }
     setLoader(false);
   };
@@ -59,8 +65,10 @@ const Vault = ({ id, coll, debt, collRatio, liquidationAt }: VaultProps) => {
       await mintDebt(id, mintDebtInput);
       setDataLoading();
       fetchData(account);
+      toast.success("Succesfully minted debt!");
     } catch (err: any) {
       console.error(err);
+      toast.error("Failed to mint debt");
     }
     setLoader(false);
   };
@@ -71,8 +79,10 @@ const Vault = ({ id, coll, debt, collRatio, liquidationAt }: VaultProps) => {
       await returnDebt(id, returnDebtInput);
       setDataLoading();
       fetchData(account);
+      toast.success("Succesfully returned debt!");
     } catch (err: any) {
       console.error(err);
+      toast.error("Failed to return debt");
     }
     setLoader(false);
   };

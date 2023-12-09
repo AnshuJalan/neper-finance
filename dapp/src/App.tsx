@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 
 import Button from "./components/Button";
 import Navbar from "./components/Navbar";
@@ -26,8 +27,10 @@ const App = () => {
     try {
       setLoader(true);
       await createVault(createVaultInput);
+      toast.success("Succesfully created vault!");
     } catch (err: any) {
       console.error(err);
+      toast.error("Failed to create vault");
     }
     setLoader(false);
   };
@@ -79,6 +82,7 @@ const App = () => {
           onSubmit={onCreateVault}
           onChange={(v) => setCreateVaultInput(v)}
         />
+        <Toaster />
       </div>
     </div>
   );
