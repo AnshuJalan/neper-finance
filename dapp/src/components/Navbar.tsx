@@ -22,7 +22,7 @@ const NetworkSelctorOption = (props: any) => (
 
 const NetworkSelectedOption = (props: any) => (
   <components.SingleValue {...props}>
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 min-w-[100px]">
       <img src={props.data.imgSrc} alt="selector" className="w-4" />
       {props.data.label}
     </div>

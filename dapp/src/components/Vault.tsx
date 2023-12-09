@@ -4,7 +4,9 @@ import Button from "./Button";
 import Modal from "./modals/Modal";
 
 import { Vault as VaultType } from "../utils/types";
+import { useActions } from "../hooks/useActions";
 import { addCollateral, mintDebt, returnDebt, withdrawCollateral } from "../utils/contracts";
+import { useSDK } from "@metamask/sdk-react";
 
 type VaultProps = VaultType;
 
@@ -24,9 +26,13 @@ const Vault = ({ id, coll, debt, collRatio, liquidationAt }: VaultProps) => {
   const [mintDebtError, setMintDebtError] = useState(false);
   const [returnDebtError, setReturnDebtError] = useState(false);
 
+  const { fetchData } = useActions();
+  const { account } = useSDK();
+
   const onAddCollateral = async () => {
     try {
       await addCollateral(id, addCollateralInput);
+      fetchData(account);
     } catch (err: any) {
       console.error(err);
     }
@@ -35,6 +41,7 @@ const Vault = ({ id, coll, debt, collRatio, liquidationAt }: VaultProps) => {
   const onWithdrawCollateral = async () => {
     try {
       await withdrawCollateral(id, withdrawCollateralInput);
+      fetchData(account);
     } catch (err: any) {
       console.error(err);
     }
@@ -43,6 +50,7 @@ const Vault = ({ id, coll, debt, collRatio, liquidationAt }: VaultProps) => {
   const onMintDebt = async () => {
     try {
       await mintDebt(id, mintDebtInput);
+      fetchData(account);
     } catch (err: any) {
       console.error(err);
     }
@@ -51,6 +59,7 @@ const Vault = ({ id, coll, debt, collRatio, liquidationAt }: VaultProps) => {
   const onReturnDebt = async () => {
     try {
       await returnDebt(id, returnDebtInput);
+      fetchData(account);
     } catch (err: any) {
       console.error(err);
     }

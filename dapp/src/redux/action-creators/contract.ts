@@ -3,14 +3,18 @@ import BigNumber from "bignumber.js";
 
 import { Vault } from "../../utils/types";
 import { ContractActions } from "../actions";
-import { fetchParamsRaw } from "../../utils/contracts";
+import { fetchParamsRaw, fetchVaultsRaw } from "../../utils/contracts";
 import { ContractActionTypes } from "../action-types";
 import { fetchVaultsFromSubgraph } from "../../utils/graph";
 import { Q64, Q64_MUL_100, TEST_ETH_PRICE } from "../../utils/constants";
 
+import { store } from "../..";
+
 export const fetchData = (account?: string) => async (dispatch: Dispatch<ContractActions>) => {
   try {
     const params = await fetchParamsRaw();
+
+    if (!params) return;
 
     const debtRebaseIndex = new BigNumber(params.rebaseIndices[0]);
     const collRebaseIndex = new BigNumber(params.rebaseIndices[1]);
@@ -20,9 +24,17 @@ export const fetchData = (account?: string) => async (dispatch: Dispatch<Contrac
 
     let vaults: Vault[] = [];
     if (account) {
-      const vaultsRes = await fetchVaultsFromSubgraph(account);
+      let vaultsRes;
+      if (
+        store.getState().infra.network === "0x1389" ||
+        store.getState().infra.network === "0xc3"
+      ) {
+        vaultsRes = await fetchVaultsRaw(account);
+      } else {
+        vaultsRes = (await fetchVaultsFromSubgraph(account)).data.vaults;
+      }
 
-      vaults = vaultsRes.data.vaults.map((vault: any) => {
+      vaults = vaultsRes.map((vault: any) => {
         const coll = new BigNumber(vault.coll)
           .multipliedBy(new BigNumber(vault.lastCollRebaseIndex))
           .dividedBy(collRebaseIndex)
@@ -64,6 +76,6 @@ export const fetchData = (account?: string) => async (dispatch: Dispatch<Contrac
       },
     });
   } catch (err: any) {
-    console.error(err.message);
+    console.error(err);
   }
 };

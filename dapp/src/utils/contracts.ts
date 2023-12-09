@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { CHAINS } from "./constants";
 import NeperUSDABI from "../abi/NeperUSD";
 import VaultManagerABI from "../abi/VaultManager";
+import BigNumber from "bignumber.js";
 
 let vaultManager: ethers.Contract;
 let neperUSD: ethers.Contract;
@@ -26,12 +27,35 @@ export const setContracts = async (network: string) => {
 
 export const fetchParamsRaw = async () => {
   try {
+    if (!vaultManager) return undefined; // unholy, I know
     const rebaseIndices = await vaultManager.rebaseIndices();
     const minimumCollRatio = await vaultManager.minimumCollRatio();
     const collLocked = await vaultManager.collLocked();
     const debt = await neperUSD.totalSupply();
 
     return { rebaseIndices, minimumCollRatio, collLocked, debt };
+  } catch (err: any) {
+    throw err;
+  }
+};
+
+export const fetchVaultsRaw = async (account: string): Promise<any> => {
+  try {
+    const vaults: any = [];
+    for (let id = 1; id <= 5; id++) {
+      const hash = ethers.solidityPackedKeccak256(["address", "uint256"], [account, id]);
+      const vault = await vaultManager.vaults(hash);
+      if (vault["4"] !== false) {
+        vaults.push({
+          id: `${account}-{id}`,
+          coll: new BigNumber(vault["1"]).dividedBy(10 ** 18),
+          debt: new BigNumber(vault["0"]).dividedBy(10 ** 18),
+          lastDebtRebaseIndex: vault["2"],
+          lastCollRebaseIndex: vault["3"],
+        });
+      }
+    }
+    return vaults;
   } catch (err: any) {
     throw err;
   }

@@ -37,6 +37,16 @@ const config: HardhatUserConfig = {
       accounts: [process.env.PRIVATE_KEY as string],
       chainId: 44787,
     },
+    mantle: {
+      url: "https://rpc.testnet.mantle.xyz/",
+      accounts: [process.env.PRIVATE_KEY as string],
+      chainId: 5001,
+    },
+    okx: {
+      url: "https://x1testrpc.okx.com",
+      accounts: [process.env.PRIVATE_KEY as string],
+      chainId: 195,
+    },
   },
 };
 
