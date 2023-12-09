@@ -6,7 +6,7 @@ import "./FixedPoint.sol";
 library Constants {
     uint internal constant BORROW_FEE_BPS = 500;
 
-    uint internal constant BASE_MCR = 105;
+    uint internal constant BASE_MCR = 105 * FixedPoint.Q64;
 
     uint internal constant MAX_REDEMPTION_D_RATIO_BUMP = 500 * FixedPoint.Q64;
 
