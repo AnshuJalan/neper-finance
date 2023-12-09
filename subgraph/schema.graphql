@@ -1,0 +1,79 @@
+type CreateVault @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  vaultId: BigInt! # uint256
+  coll: BigInt! # uint128
+  dri: BigInt! # uint128
+  cri: BigInt! # uint128
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DecreaseVaultColl @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  vaultId: BigInt! # uint256
+  coll: BigInt! # uint128
+  dri: BigInt! # uint128
+  cri: BigInt! # uint128
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DecreaseVaultDebt @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  vaultId: BigInt! # uint256
+  debt: BigInt! # uint128
+  dri: BigInt! # uint128
+  cri: BigInt! # uint128
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type IncreaseVaultColl @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  vaultId: BigInt! # uint256
+  coll: BigInt! # uint128
+  dri: BigInt! # uint128
+  cri: BigInt! # uint128
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type IncreaseVaultDebt @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  vaultId: BigInt! # uint256
+  debt: BigInt! # uint128
+  dri: BigInt! # uint128
+  cri: BigInt! # uint128
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Liquidate @entity(immutable: true) {
+  id: Bytes!
+  liquidator: Bytes! # address
+  owner: Bytes! # address
+  vaultId: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Redeem @entity(immutable: true) {
+  id: Bytes!
+  redeemer: Bytes! # address
+  debt: BigInt! # uint256
+  coll: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

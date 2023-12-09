@@ -1,0 +1,42 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: VaultManager
+    network: sepolia
+    source:
+      address: "0xCD010F537A4054e4D9DC413A3b81C0fbD8782b41"
+      abi: VaultManager
+      startBlock: 4850067
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - CreateVault
+        - DecreaseVaultColl
+        - DecreaseVaultDebt
+        - IncreaseVaultColl
+        - IncreaseVaultDebt
+        - Liquidate
+        - Redeem
+      abis:
+        - name: VaultManager
+          file: ./abis/VaultManager.json
+      eventHandlers:
+        - event: CreateVault(indexed address,uint256,uint128,uint128,uint128)
+          handler: handleCreateVault
+        - event: DecreaseVaultColl(indexed address,uint256,uint128,uint128,uint128)
+          handler: handleDecreaseVaultColl
+        - event: DecreaseVaultDebt(indexed address,uint256,uint128,uint128,uint128)
+          handler: handleDecreaseVaultDebt
+        - event: IncreaseVaultColl(indexed address,uint256,uint128,uint128,uint128)
+          handler: handleIncreaseVaultColl
+        - event: IncreaseVaultDebt(indexed address,uint256,uint128,uint128,uint128)
+          handler: handleIncreaseVaultDebt
+        - event: Liquidate(indexed address,indexed address,uint256)
+          handler: handleLiquidate
+        - event: Redeem(indexed address,uint256,uint256)
+          handler: handleRedeem
+      file: ./src/vault-manager.ts

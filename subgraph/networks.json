@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "VaultManager": {
+      "address": "0xCD010F537A4054e4D9DC413A3b81C0fbD8782b41",
+      "startBlock": 4850067
+    }
+  }
+}
