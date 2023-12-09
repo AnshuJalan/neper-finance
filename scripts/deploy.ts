@@ -19,6 +19,13 @@ async function main() {
 
   const receipt2 = await vaultManager.initialize(priceFeed.target);
   console.log(`Vault Manager initialized through txn: ${receipt2.hash}`);
+
+  // const receipt3 = await priceFeed.updatePrice();
+  // console.log(`Price feed updated through txn: ${receipt3.hash}`);
+
+  // For non chainlink networks
+  const receipt4 = await priceFeed.setPriceForced(220000000000);
+  console.log(`Price feed updated through txn: ${receipt4.hash}`);
 }
 
 main().catch((error) => {

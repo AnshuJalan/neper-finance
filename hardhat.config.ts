@@ -23,7 +23,7 @@ const config: HardhatUserConfig = {
       chainId: 1442,
     },
     scroll: {
-      url: "https://scroll-sepolia.blockpi.network/v1/rpc/public",
+      url: "https://rpc.ankr.com/scroll_sepolia_testnet",
       accounts: [process.env.PRIVATE_KEY as string],
       chainId: 534351,
     },
