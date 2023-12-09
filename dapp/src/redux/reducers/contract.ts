@@ -8,6 +8,7 @@ import { ContractActionTypes } from "../action-types";
 interface ContractState {
   params: Params;
   vaults: Vault[];
+  isLoading: boolean;
 }
 
 const initialState: ContractState = {
@@ -18,6 +19,7 @@ const initialState: ContractState = {
     coll: "0",
   },
   vaults: [],
+  isLoading: false,
 };
 
 export const contractReducer: Reducer<ContractState, ContractActions> = (
@@ -28,6 +30,12 @@ export const contractReducer: Reducer<ContractState, ContractActions> = (
     case ContractActionTypes.FETCH_DATA: {
       return {
         ...action.payload,
+      };
+    }
+    case ContractActionTypes.SET_DATA_LOADING: {
+      return {
+        ...state,
+        isLoading: true,
       };
     }
     default: {

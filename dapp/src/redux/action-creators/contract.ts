@@ -10,6 +10,12 @@ import { Q64, Q64_MUL_100, TEST_ETH_PRICE } from "../../utils/constants";
 
 import { store } from "../..";
 
+export const setDataLoading = (): ContractActions => {
+  return {
+    type: ContractActionTypes.SET_DATA_LOADING,
+  };
+};
+
 export const fetchData = (account?: string) => async (dispatch: Dispatch<ContractActions>) => {
   try {
     const params = await fetchParamsRaw();
@@ -59,7 +65,6 @@ export const fetchData = (account?: string) => async (dispatch: Dispatch<Contrac
         };
       });
     }
-
     dispatch({
       type: ContractActionTypes.FETCH_DATA,
       payload: {
@@ -73,6 +78,7 @@ export const fetchData = (account?: string) => async (dispatch: Dispatch<Contrac
           debt: new BigNumber(params.debt).dividedBy(10 ** 18).toFixed(2),
         },
         vaults,
+        isLoading: false,
       },
     });
   } catch (err: any) {

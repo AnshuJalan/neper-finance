@@ -66,7 +66,7 @@ const Navbar = () => {
   const { sdk, connected, account, chainId } = useSDK();
 
   const { network } = useTypedSelector((state) => state.infra);
-  const { switchNetwork, fetchData } = useActions();
+  const { switchNetwork, fetchData, setDataLoading } = useActions();
 
   useEffect(() => {
     if (!network) {
@@ -81,13 +81,16 @@ const Navbar = () => {
     (async () => {
       setClient(network);
       await setContracts(network);
+      setDataLoading();
       fetchData(account);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [network]);
 
   useEffect(() => {
+    setDataLoading();
     fetchData(account);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, fetchData]);
 
   const handleNetworkChange = async (option: SingleValue<NetworkOption>) => {
@@ -115,7 +118,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="text-black py-4 px-48 flex justify-between items-center">
+    <div className="text-black py-4 px-48 flex justify-between items-center z-0">
       <span className="text-2xl font-bold">Neper Finance</span>
 
       <div className="flex items-center">
@@ -135,7 +138,7 @@ const Navbar = () => {
           </div>
         </Button>
       </div>
-    </nav>
+    </div>
   );
 };
 

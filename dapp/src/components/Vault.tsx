@@ -26,43 +26,55 @@ const Vault = ({ id, coll, debt, collRatio, liquidationAt }: VaultProps) => {
   const [mintDebtError, setMintDebtError] = useState(false);
   const [returnDebtError, setReturnDebtError] = useState(false);
 
-  const { fetchData } = useActions();
+  const { fetchData, setLoader, setDataLoading } = useActions();
   const { account } = useSDK();
 
   const onAddCollateral = async () => {
     try {
+      setLoader(true);
       await addCollateral(id, addCollateralInput);
+      setDataLoading();
       fetchData(account);
     } catch (err: any) {
       console.error(err);
     }
+    setLoader(false);
   };
 
   const onWithdrawCollateral = async () => {
     try {
+      setLoader(true);
       await withdrawCollateral(id, withdrawCollateralInput);
+      setDataLoading();
       fetchData(account);
     } catch (err: any) {
       console.error(err);
     }
+    setLoader(false);
   };
 
   const onMintDebt = async () => {
     try {
+      setLoader(true);
       await mintDebt(id, mintDebtInput);
+      setDataLoading();
       fetchData(account);
     } catch (err: any) {
       console.error(err);
     }
+    setLoader(false);
   };
 
   const onReturnDebt = async () => {
     try {
+      setLoader(true);
       await returnDebt(id, returnDebtInput);
+      setDataLoading();
       fetchData(account);
     } catch (err: any) {
       console.error(err);
     }
+    setLoader(false);
   };
 
   return (

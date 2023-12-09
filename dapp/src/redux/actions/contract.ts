@@ -7,7 +7,12 @@ export interface FetchDataAction {
   payload: {
     params: Params;
     vaults: Vault[];
+    isLoading: boolean;
   };
 }
 
-export type ContractActions = FetchDataAction;
+export interface SetDataLoadingAction {
+  type: ContractActionTypes.SET_DATA_LOADING;
+}
+
+export type ContractActions = FetchDataAction | SetDataLoadingAction;

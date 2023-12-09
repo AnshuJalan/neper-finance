@@ -30,7 +30,7 @@ const Modal = ({
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-40">
       <div className="bg-beige p-4 rounded-md w-1/3 shadow-lg">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-medium">{heading}</h2>
