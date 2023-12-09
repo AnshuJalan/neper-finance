@@ -21,6 +21,7 @@ export const fetchData = (account?: string) => async (dispatch: Dispatch<Contrac
     let vaults: Vault[] = [];
     if (account) {
       const vaultsRes = await fetchVaultsFromSubgraph(account);
+
       vaults = vaultsRes.data.vaults.map((vault: any) => {
         const coll = new BigNumber(vault.coll)
           .multipliedBy(new BigNumber(vault.lastCollRebaseIndex))
@@ -33,23 +34,19 @@ export const fetchData = (account?: string) => async (dispatch: Dispatch<Contrac
 
         // p  = (mcr * debt) / (coll * Q64_100) ;
         return {
-          coll: coll.toFixed(3),
-          debt: debt.toFixed(3),
+          id: parseInt(vault.id.split("-")[1]),
+          coll: coll.toFixed(2),
+          debt: debt.toFixed(2),
           collRatio: debt.isGreaterThan(0)
-            ? new BigNumber(coll)
-                .multipliedBy(TEST_ETH_PRICE * 100)
-                .dividedBy(debt)
-                .toFixed(2)
+            ? new BigNumber(coll).multipliedBy(100).dividedBy(debt).toFixed(2)
             : "MAX",
           liquidationAt: mcr
             .multipliedBy(debt)
-            .dividedBy(coll.multipliedBy(Q64_MUL_100))
+            .dividedBy(coll.dividedBy(TEST_ETH_PRICE).multipliedBy(Q64_MUL_100))
             .toFixed(2),
         };
       });
     }
-
-    console.log(mcr.toNumber());
 
     dispatch({
       type: ContractActionTypes.FETCH_DATA,
@@ -61,7 +58,7 @@ export const fetchData = (account?: string) => async (dispatch: Dispatch<Contrac
             .multipliedBy(TEST_ETH_PRICE)
             .dividedBy(10 ** 18)
             .toFixed(2),
-          debt: new BigNumber(params.debt).toFixed(2),
+          debt: new BigNumber(params.debt).dividedBy(10 ** 18).toFixed(2),
         },
         vaults,
       },

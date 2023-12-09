@@ -1,4 +1,5 @@
 export interface Vault {
+  id: number;
   coll: string;
   debt: string;
   collRatio: string;

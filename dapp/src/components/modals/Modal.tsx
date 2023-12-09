@@ -6,12 +6,12 @@ interface ModalProps {
   show: boolean;
   heading: string;
   label: string;
-  subLabel: string;
+  subLabel?: string;
   value: string;
   error: boolean;
-  placeholder?: string;
+  placeholder: string;
   onChange: (val: string) => void;
-  onSubmit: (val: string) => void;
+  onSubmit: () => void;
   onClose: () => void;
 }
 

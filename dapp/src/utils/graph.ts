@@ -18,6 +18,7 @@ export const fetchVaultsFromSubgraph = async (account: string) => {
     const query = gql`
     query {
       vaults(where: { owner: "${account}" }) {
+        id
         owner
         coll
         isActive

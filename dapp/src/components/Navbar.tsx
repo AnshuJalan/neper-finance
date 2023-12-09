@@ -80,7 +80,7 @@ const Navbar = () => {
   useEffect(() => {
     (async () => {
       setClient(network);
-      setContracts(network);
+      await setContracts(network);
       fetchData(account);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
