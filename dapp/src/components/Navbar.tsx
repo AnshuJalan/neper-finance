@@ -119,7 +119,10 @@ const Navbar = () => {
 
   return (
     <div className="text-black py-4 px-48 flex justify-between items-center z-0">
-      <span className="text-2xl font-bold">Neper Finance</span>
+      <div className="flex items-center">
+        <img src="/brand.png" alt="brand" className="w-10 mr-2" />
+        <span className="text-2xl font-bold">Neper Finance</span>
+      </div>
 
       <div className="flex items-center">
         <Select
