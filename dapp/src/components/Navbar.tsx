@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSDK } from "@metamask/sdk-react";
 import Select, { components, SingleValue, StylesConfig } from "react-select";
 
 import Button from "./Button";
+import { setClient } from "../utils/graph";
 import { formatAccount } from "../utils/strings";
+import { useActions } from "../hooks/useActions";
+import { switchNetworkMM } from "../utils/metamask";
 import { CHAINS, DEFAULT_NETWORK } from "../utils/constants";
-import { switchNetwork } from "../utils/metamask";
+import { useTypedSelector } from "../hooks/useTypedSelector";
+import { setContracts } from "../utils/contracts";
 
 const NetworkSelctorOption = (props: any) => (
   <components.Option {...props}>
@@ -31,13 +35,15 @@ interface NetworkOption {
   imgSrc: string;
 }
 
-const options = Object.keys(CHAINS).map((chainId) => {
-  return {
-    label: CHAINS[chainId].name.split(" ")[0],
-    value: chainId,
-    imgSrc: CHAINS[chainId].iconUrl,
-  };
-});
+const options: { [key: string]: NetworkOption } = {};
+Object.keys(CHAINS).map(
+  (chainId) =>
+    (options[chainId] = {
+      label: CHAINS[chainId].name.split(" ")[0],
+      value: chainId,
+      imgSrc: CHAINS[chainId].iconUrl,
+    })
+);
 
 const customStyles: StylesConfig<NetworkOption, false> = {
   option: (provided, state) => ({
@@ -59,25 +65,37 @@ const customStyles: StylesConfig<NetworkOption, false> = {
 const Navbar = () => {
   const { sdk, connected, account, chainId } = useSDK();
 
-  const [network, setNetwork] = useState(
-    options.find((opt) => opt.value === (localStorage.getItem("network") || DEFAULT_NETWORK))
-  );
+  const { network } = useTypedSelector((state) => state.infra);
+  const { switchNetwork, fetchData } = useActions();
 
   useEffect(() => {
     if (!network) {
       return;
-    } else if (network.value !== chainId) {
-      switchNetwork(network.value);
+    } else if (network !== chainId) {
+      switchNetworkMM(network);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      setClient(network);
+      setContracts(network);
+      fetchData(account);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [network]);
+
+  useEffect(() => {
+    fetchData(account);
+  }, [account, fetchData]);
 
   const handleNetworkChange = async (option: SingleValue<NetworkOption>) => {
     if (!option) return;
 
     try {
-      await switchNetwork(option.value);
-      setNetwork(option);
+      await switchNetworkMM(option.value);
+      switchNetwork(option.value);
       localStorage.setItem("network", option.value);
     } catch (err: any) {
       console.error(err.message);
@@ -102,12 +120,12 @@ const Navbar = () => {
 
       <div className="flex items-center">
         <Select
-          options={options}
-          defaultValue={options[0]}
+          options={Object.values(options)}
+          defaultValue={options[DEFAULT_NETWORK]}
           components={{ Option: NetworkSelctorOption, SingleValue: NetworkSelectedOption }}
           styles={customStyles}
           onChange={handleNetworkChange}
-          value={network}
+          value={options[network]}
           className="text-black font-medium mr-2"
         />
         <Button onClick={connectWallet}>

@@ -1,8 +1,6 @@
 import { CHAINS } from "./constants";
 
-export const attachNetworkChangeListener = () => {};
-
-export const switchNetwork = async (expected: string) => {
+export const switchNetworkMM = async (expected: string) => {
   if (!CHAINS[expected]) return;
 
   if (window.ethereum) {

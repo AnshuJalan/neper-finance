@@ -1,24 +1,27 @@
 import Button from "./Button";
+import { Vault as VaultType } from "../utils/types";
 
-const Vault = () => {
+type VaultProps = VaultType;
+
+const Vault = ({ coll, debt, collRatio, liquidationAt }: VaultProps) => {
   return (
     <div className="text-xl rounded-md bg-beige">
       <div className="flex items-center justify-between gap-8 px-8 py-4">
         <div>
           <div className="font-medium mb-1">Collateral Ratio</div>
-          <div>110 %</div>
+          <div>{collRatio} %</div>
         </div>
         <div>
           <div className="font-medium mb-1">Collateral Value</div>
-          <div>5.7 %</div>
+          <div>$ {coll}</div>
         </div>
         <div>
-          <div className="font-medium mb-1">Debt Remaining</div>
-          <div>5 %</div>
+          <div className="font-medium mb-1">Debt</div>
+          <div>{debt} pUSD</div>
         </div>
         <div>
           <div className="font-medium mb-1">Liquidation at</div>
-          <div>$ 123,000</div>
+          <div>$ {liquidationAt}</div>
         </div>
       </div>
       <div className="h-0.5 bg-slate-300"></div>

@@ -1,4 +1,0 @@
-export enum WalletActions {
-  CONNECT_WALLET = "CONNECT_WALLET",
-  DISCONNECT_WALLET = "DISCONNECT_WALLET",
-}

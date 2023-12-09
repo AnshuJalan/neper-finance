@@ -2,13 +2,16 @@ import Button from "./components/Button";
 import Navbar from "./components/Navbar";
 import Params from "./components/Params";
 import Vault from "./components/Vault";
+import { useTypedSelector } from "./hooks/useTypedSelector";
 
 const App = () => {
+  const { params, vaults } = useTypedSelector((state) => state.contract);
+
   return (
     <div>
       <Navbar />
       <div className="mt-8 px-48">
-        <Params />
+        <Params mcr={params.mcr} coll={params.coll} debt={params.debt} dMCR={params.dMCR} />
         <div className="mt-8">
           <div className="flex justify-between mb-4">
             <div className="text-2xl font-medium">Your Vaults</div>
@@ -19,7 +22,15 @@ const App = () => {
               </div>
             </Button>
           </div>
-          <Vault />
+          {vaults.map((vault, index) => (
+            <Vault
+              key={index}
+              coll={vault.coll}
+              debt={vault.debt}
+              collRatio={vault.collRatio}
+              liquidationAt={vault.liquidationAt}
+            />
+          ))}
         </div>
       </div>
     </div>
