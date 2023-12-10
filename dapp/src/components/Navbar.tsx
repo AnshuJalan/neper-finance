@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSDK } from "@metamask/sdk-react";
 import Select, { components, SingleValue, StylesConfig } from "react-select";
+import { Link } from "react-router-dom";
 
 import Button from "./Button";
 import { setClient } from "../utils/graph";
@@ -119,10 +120,12 @@ const Navbar = () => {
 
   return (
     <div className="text-black py-4 px-48 flex justify-between items-center z-0">
-      <div className="flex items-center">
-        <img src="/brand.png" alt="brand" className="w-10 mr-2" />
-        <span className="text-2xl font-bold">Neper Finance</span>
-      </div>
+      <Link to="/">
+        <div className="flex items-center">
+          <img src="/brand.png" alt="brand" className="w-10 mr-2" />
+          <span className="text-2xl font-bold">Neper Finance</span>
+        </div>
+      </Link>
 
       <div className="flex items-center">
         <Select
